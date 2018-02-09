@@ -1,0 +1,63 @@
+
+@mixin input-syle(){
+    width: 100%;
+
+    border-radius: 4px; 
+    border: none;
+        
+    box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.2) inset;
+
+    font-family: $font-main;
+}
+
+form{
+    height: 100%;
+
+    padding: 24px;
+
+    background-color: $color-main-alt;
+    color: $color-main;
+
+    p{
+        margin-bottom: 20px;
+    }
+    
+    label{
+        display: block;
+        margin-bottom: 4px;
+        font-weight: bold;
+    }
+
+    .together > label{
+        display: inline;
+    }
+
+    input[type=text], input[type=email], select{
+        @include input-syle();
+
+        height: 32px;
+        padding: 0 12px;
+    }
+
+    textarea{
+        @include input-syle();
+
+        height: 100px;
+        resize: vertical;
+    }
+
+    button{
+        width: 100%;
+        padding: 20px;
+
+        border: none;
+
+        background-color: $color-main;
+        color: $color-main-alt;
+
+        font: {
+            weight: bold;
+            size: 1.2em;
+        }
+    }
+}

@@ -1,0 +1,17 @@
+
+.hello{
+    height: 80%;
+    padding: 24px;
+
+    align-self: flex-start;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: space-between;
+
+    img{
+        width: 250px;
+    }
+}

@@ -12,9 +12,12 @@
 </head>
 <body>
     <main>
-        <section class="left text-center">
-            <h1>Hackers Poulette</h1>
-            <h2>Technical support</h2>
+        <section class="left text-center hello">
+            <header>
+                <h1>Hackers Poulette</h1>
+                <h2>Technical support</h2>
+            </header>
+
             <img src="assets/img/logo.png" alt="logo">
             <h2>How can we help you ?</h2>
 
@@ -66,7 +69,7 @@
 
                 <p>
                     <label for="message">Message *</label>
-                    <textarea name="textarea-message" id="message" cols="30" rows="10"></textarea>
+                    <textarea name="textarea-message" id="message"></textarea>
                 </p>
                 
                 <button type="submit">Submit</button>

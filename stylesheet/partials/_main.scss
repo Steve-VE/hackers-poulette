@@ -23,7 +23,7 @@ body{
 
 main{
     display: flex;
-    width: 80%;
+    width: 60%;
     height: 100%;
     margin: 0 auto;
     padding: 0 20px;
@@ -48,4 +48,8 @@ main{
     &-center{
         text-align: center;
     }
+}
+
+h1{
+    font-size: 2em;
 }
