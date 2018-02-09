@@ -1,6 +1,6 @@
 
 .hello{
-    height: 80%;
+    height: 60%;
     padding: 24px;
 
     align-self: flex-start;
@@ -10,6 +10,11 @@
 
     align-items: center;
     justify-content: space-between;
+
+    
+    h2{
+        margin-bottom: 24px;
+    }
 
     img{
         width: 250px;

@@ -47,13 +47,15 @@ h1 {
   font-size: 2em; }
 
 .hello {
-  height: 80%;
+  height: 60%;
   padding: 24px;
   align-self: flex-start;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between; }
+  .hello h2 {
+    margin-bottom: 24px; }
   .hello img {
     width: 250px; }
 
