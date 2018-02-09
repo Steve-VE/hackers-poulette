@@ -1,0 +1,27 @@
+
+
+form{
+    height: 100%;
+
+    padding: 24px;
+
+    background-color: $color-main-alt;
+    color: $color-main;
+
+    p{
+        margin-bottom: 24px;
+    }
+    
+    label{
+        display: block;
+        font-weight: bold;
+    }
+
+    .together > label{
+        display: inline;
+    }
+
+    button{
+
+    }
+}
