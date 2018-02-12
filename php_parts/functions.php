@@ -1,9 +1,11 @@
 <?php
 
-$mark = "*";
+$mark = " *";
 
 // Insert a new input or select in a form
 function create_input( $name, $desription, $type="text", $mentadory=true, $options=null ){
+	global $form_variables;
+	
     echo "<p>";
 
     // If a description exist, we create a label
@@ -12,14 +14,23 @@ function create_input( $name, $desription, $type="text", $mentadory=true, $optio
     }
 
     if($type == "text" || $type == "email"){ // Create an <input>
-        echo '<input type="'.$type.'" name="input-'.$name.'" id="'.$name.'" />';
+        echo '<input type="'.$type.'" name="'. $type .'-'.$name.'" id="'.$name.'"';
+
+		// Check if a valid value exist already
+        if( isset($form_variables[ $type.'-'.$name]) ){
+            echo ' value="' . $form_variables[ $type.'-'.$name] . '"';
+        }
+        else{ // If no valid entry, mark this as error
+            echo '" class="error"';
+        }
+        echo ' />';
     }
     else if($type == "textarea"){ // Create an <area>
-        echo '<textarea name="textarea-' . $name . '" id="' . $name . '">';
+        echo '<textarea name="' . $type . '-' . $name . '" id="' . $name . '">';
         echo '</textarea>';
     }
     else if($type == "select" && $options !== null){ // Instead of an input, create a <select>
-        echo '<select name="select-"' . $name . '" id="' . $name . '">';
+        echo '<select name="select-' . $name . '" id="' . $name . '">';
         foreach( $options as $keyOption => $valueOption ){
             if( is_numeric( $keyOption) ){
                 echo '<option value="' . $valueOption . '">';
@@ -37,24 +48,30 @@ function create_input( $name, $desription, $type="text", $mentadory=true, $optio
     else if($type == 'radio' && $options !== null){ // Instead of an input, create some <radio>
         foreach( $options as $valueOption ){
             echo '<input type="radio" name="input-' . $name . '" name="' . $name . '" value="' . $valueOption . '"/> ';
-            echo ucfirst( $valueOption ) . ' ';
+			echo ucfirst( $valueOption ) . ' ';
         }
     }
 
     echo "</p>";
 }
 
-function labelise( $text, $for, $mentadory=true ){
+// Create a <label>
+function labelise( $text, $for, $mentadory=true, $error=false ){
     global $mark;
 
-    echo '<label for="' . $for . '">';
+	echo '<label for="' . $for . '"';
+	if($error){
+		echo ' class="error"';
+	}
+	echo '>';
     echo $text;
     if($mentadory){
-        echo ' ' . $mark;
+        echo $mark;
     }
     echo '</label>';
 }
 
+// Return a list with all countries and they iso code
 function country_list(){
     $countries = array(
 	'AF' => 'Afghanistan',
@@ -303,5 +320,32 @@ function country_list(){
 	'ZM' => 'Zambia',
 	'ZW' => 'Zimbabwe');
     return $countries;
+}
+
+
+function try_to_get($name, $method="post"){
+    if(isset($_POST[$name])){
+        if(strlen($_POST[$name]) > 0)
+        return $_POST[$name];
+    }
+    else{
+        return null;
+    }
+}
+
+// Return true if the parameter(s) is(are) not null
+function validate($var){
+    if(is_array($var)){
+        foreach($var as $current){
+            if($current == null){
+                return false;
+            }
+        }
+        return true;
+    }
+    else if($var != null){
+        return true;
+    }
+    else return false;
 }
 ?>

@@ -17,7 +17,7 @@ include("php_parts/functions.php");
 <body>
     <main>
         <?php
-        include("php_parts/hello.php");
+        include("php_parts/header.php");
         include("php_parts/formulaire.php");
         ?>
     </main>

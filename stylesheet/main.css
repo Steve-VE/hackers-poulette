@@ -22,23 +22,18 @@
 body {
   width: 100%;
   height: 100vh;
-  background-color: #404040; }
+  background-color: white; }
 
 main {
   display: flex;
+  flex-direction: column;
   width: 60%;
+  max-width: 780px;
   height: 100%;
   margin: 0 auto;
   padding: 0 20px;
   background-color: white;
   font-family: Bellota, serif; }
-  main section {
-    width: 50%;
-    height: 100%; }
-  main .left {
-    justify-self: flex-start; }
-  main .right {
-    justify-self: flex-end; }
 
 .text-center {
   text-align: center; }
@@ -46,55 +41,73 @@ main {
 h1 {
   font-size: 2em; }
 
-.hello {
-  height: 60%;
-  padding: 24px;
-  align-self: flex-start;
+header {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between; }
-  .hello h2 {
-    margin-bottom: 24px; }
-  .hello img {
-    width: 250px; }
+  width: 100%;
+  height: 25vh;
+  padding: 24px 0;
+  border-bottom: 6px double #15c5bd; }
+  header img {
+    height: 200px; }
+  header .title {
+    width: 100%;
+    padding: 24px 0;
+    text-align: center; }
+    header .title h1 {
+      font-size: 2.5em;
+      margin-bottom: 24px; }
 
-form {
-  height: 100%;
-  padding: 24px;
+.formulaire {
+  width: 100%;
+  height: 75vh;
+  padding: 40px;
   background-color: #15c5bd;
+  border-top: 4px double white;
   color: white; }
-  form p {
-    margin-bottom: 20px; }
-  form label {
-    display: block;
-    margin-bottom: 4px;
-    font-weight: bold; }
-  form .together > label {
-    display: inline; }
-  form input[type=text], form input[type=email], form select {
-    width: 100%;
-    border-radius: 4px;
-    border: none;
-    box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.2) inset;
-    font-family: Bellota, serif;
-    height: 32px;
-    padding: 0 12px; }
-  form textarea {
-    width: 100%;
-    border-radius: 4px;
-    border: none;
-    box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.2) inset;
-    font-family: Bellota, serif;
-    height: 100px;
-    resize: vertical; }
-  form button {
-    width: 100%;
-    padding: 20px;
-    border: none;
-    background-color: white;
-    color: #15c5bd;
-    font-weight: bold;
-    font-size: 1.2em; }
+  .formulaire > form {
+    display: grid;
+    grid-template: repeat(6, auto)/repeat(4, 1fr);
+    grid-gap: 32px 24px; }
+    .formulaire > form .item {
+      grid-row: span 1;
+      grid-column: span 2; }
+      .formulaire > form .item.gender {
+        margin: auto 0; }
+      .formulaire > form .item.large {
+        grid-column: span 4; }
+      .formulaire > form .item.center {
+        grid-column: 2 / span 2; }
+    .formulaire > form label {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: bold; }
+    .formulaire > form input[type=text], .formulaire > form input[type=email], .formulaire > form select {
+      width: 100%;
+      padding: 0 12px;
+      border-radius: 4px;
+      border: none;
+      box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.2) inset;
+      font-family: Bellota, serif;
+      height: 32px; }
+    .formulaire > form textarea {
+      width: 100%;
+      padding: 0 12px;
+      border-radius: 4px;
+      border: none;
+      box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.2) inset;
+      font-family: Bellota, serif;
+      height: 100px;
+      resize: vertical; }
+    .formulaire > form button {
+      width: 100%;
+      padding: 20px;
+      border: none;
+      background-color: white;
+      color: #15c5bd;
+      font-weight: bold;
+      font-size: 1.2em; }
+    .formulaire > form .error {
+      border: 1px solid red;
+      box-shadow: 1px 1px 2px 0px red inset; }
 
 /*# sourceMappingURL=main.css.map */
