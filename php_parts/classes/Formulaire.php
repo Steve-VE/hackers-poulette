@@ -25,6 +25,7 @@ class Formulaire{
 
     // Add an element in this formulaire
     public function add_element($name, $desription, $type="text", $mentadory=true, $options=null){
+        // SETTING OF THE ELEMENT
         $strict_name = $type."-".$name;
         // Add the element with all its values
         $this->_elements[ $strict_name ] = [
@@ -32,9 +33,12 @@ class Formulaire{
             "description" => $desription,
             "type" => $type,
             "mendatory" => $mentadory,
-            "options" => $options
+            "options" => $options,
+            "classes" => 'item'
         ];
         
+
+        // GETTING OF ITS VALUE (if possible)
         // We look what type of filter we need to sanitize;
         $filter_sanitize;
         switch($type){
@@ -45,16 +49,32 @@ class Formulaire{
             default:
             $filter_sanitize = FILTER_SANITIZE_STRING;
         }
-        
         // After have adding the element, we check if a value already exist for it
         $this->_variables[ $strict_name ] = try_to_get($strict_name, $filter_sanitize);
 
+        // CHECK THE VALIDITY OF THE FORM
         // We look if we need to mark the formulaire as not valid
-        if( $this->_variables[ $strict_name ] == null 
-        || $this->_variables[ $strict_name ] == false 
-        || !isset($this->_variables[ $strict_name ]) 
-        || (($type == "text" || $type == "textarea") && strlen($this->_variables[ $strict_name ]) <= $this->_min_strlen[$type]) ){
+        if( $this->error( $strict_name )){
             $this->_valid = false;
+        }
+        // if( $this->_variables[ $strict_name ] == null 
+        // || $this->_variables[ $strict_name ] == false 
+        // || !isset($this->_variables[ $strict_name ]) 
+        // || (($type == "text" || $type == "textarea") && strlen($this->_variables[ $strict_name ]) <= $this->_min_strlen[$type]) ){
+        //     $this->_valid = false;
+        // }
+    }
+
+    // Add some CSS class in an element
+    public function add_classes($strict_name, $classes){
+        $this->_elements[$strict_name]["classes"] = $this->_elements[$strict_name]["classes"] . " " . $classes;
+    }
+    
+
+    // Draw all elements in the formulaire
+    public function print_all_elements(){
+        foreach( $this->_elements as $strict_name => $element ){
+            $this->print_element($strict_name);
         }
     }
 
@@ -65,15 +85,16 @@ class Formulaire{
 
         if($current_element != null){
 
-            echo '<p';
+            echo '<div class="' . $current_element['classes'];
             // Check if a valid value exist already
             if($this->_already_posted){
                 if($this->error($strict_name)){ // If not, we class it like an error.
-                    if($this->_already_posted) echo ' class="error"';
+                    echo ' error';
                 }
                 $value = $this->_variables[$strict_name];
             }
-            echo '>';
+            echo '">';
+            echo '<p>';
             
             // If a description exist, we create a label
             if(strlen($current_element['description']) > 0){ 
@@ -132,26 +153,34 @@ class Formulaire{
             }
             
             echo "</p>";
+            echo "</div>";
         }
     }
 
     // Return true if an input isn't correcly fill
     private function error($strict_name){
+        // We get the element...
         $current_element = $this->_elements[$strict_name];
+        $current_variable = null;
+        // ...then we get its value
+        if( isset($this->_variables[ $strict_name ]) ) {
+            $current_variable = $this->_variables[ $strict_name ];
+        }
 
-        if( isset($this->_variables[$strict_name]) 
-        && $this->_variables[$strict_name] != null ){
-            if( ($current_element['type'] == "text" || $current_element['type'] == "textarea")){
-                if(strlen($this->_variables[ $strict_name ]) > $this->_min_strlen[$current_element['type']]){
-                    return false;
-                }
-            }
-            else{
-                return false;
+        // Error if it have no value
+        if( $current_variable == null || $current_variable == false ){
+            return true;
+        }
+
+        // If the element's type is a text or textarea...
+        if( ($current_element['type'] == "text" || $current_element['type'] == "textarea")){
+            // ... and don't have the minimum string lenght
+            if(strlen($this->_variables[ $strict_name ]) < $this->_min_strlen[$current_element['type']]){
+                return true;
             }
         }
 
-        return true;
+        return false;
     }
 
     // Return 'true' if the form is correctly fill
@@ -159,29 +188,31 @@ class Formulaire{
         return $this->_valid;
     }
 
-    public function get_message($mode="mail"){
-        if($mode == "mail"){
-            $message = 'Hackers Poulette - Technical Support\n';
-            $message .= 'From : ' . $this->_variables['text-user-firstname'] . ' ';
-            $message .= $this->_variables['text-user-lastname'] . '\n';
-            $message .= 'Mail : ' . $this->_variables['email-email'] . '\n';
-            $message .= 'About : ' . $this->_variables['select-subject'] . '\n';
-            $message .= 'Message :\n' . $this->_variables['textarea-message'];
+    // Write and return a message from form's data
+    public function get_message($complete=false){
+        $message = "";
+
+        if($complete){
+            $message .= '<html><body>';
         }
-        else{
-            $message = '<h1>Hackers Poulette - Technical Support</h1>';
-            $message .= '<p>';
-            $message .= 'From : ' . $this->_variables['text-user-firstname'] . ' ';
-            $message .= $this->_variables['text-user-lastname'] . '<br/>';
-            $message .= 'Mail : ' . $this->_variables['email-email'] . '<br/>';
-            $message .= 'About : ' . $this->_variables['select-subject'] . '<br/>';
-            $message .= 'Message :<br/>' . $this->_variables['textarea-message'];
-            $message .= '</p>';
+
+        $message .= '<h1>Hackers Poulette - Technical Support</h1>';
+        $message .= '<p>';
+        $message .= 'From : ' . $this->_variables['text-user-firstname'] . ' ';
+        $message .= $this->_variables['text-user-lastname'] . '<br/>';
+        $message .= 'Mail : ' . $this->_variables['email-email'] . '<br/>';
+        $message .= 'About : ' . $this->_variables['select-subject'] . '<br/>';
+        $message .= 'Message :<br/>' . $this->_variables['textarea-message'];
+        $message .= '</p>';
+
+        if($complete){
+            $message .= '</body></html>';
         }
 
         return $message;
     }
 
+    // Return a value at the index
     public function get($index_value){
         return $this->_variables[$index_value];
     }

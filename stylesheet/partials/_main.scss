@@ -18,6 +18,8 @@ body{
     height: 100vh;
 
     background-color: $color-main;
+    background:url("/assets/img/raspberry-pi-left.png") center left no-repeat,
+               url("/assets/img/raspberry-pi-right.png") center right no-repeat;
 }
 
 

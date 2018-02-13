@@ -32,6 +32,7 @@ body {
   width: 100%;
   height: 100vh;
   background-color: white;
+  background: url("/assets/img/raspberry-pi-left.png") center left no-repeat, url("/assets/img/raspberry-pi-right.png") center right no-repeat;
 }
 
 main {
@@ -103,6 +104,7 @@ header .title h1 {
 .formulaire > form .item {
   width: 50%;
   margin: 16px 0;
+  padding: 4px;
 }
 
 @supports (display: grid) {
@@ -134,10 +136,6 @@ header .title h1 {
     width: auto;
     grid-column: 2 / span 2;
   }
-}
-
-.formulaire > form .item > p {
-  padding: 4px;
 }
 
 .formulaire > form label {

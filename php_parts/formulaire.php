@@ -1,29 +1,26 @@
 <?php
-
-    
     include("classes/Formulaire.php");
     $formulaire = new Formulaire;
     $formulaire -> add_element( "user-firstname", "Your name" );
     $formulaire -> add_element( "user-lastname", "Last name" );
     $formulaire -> add_element( "email", "Email", "email" );
+
     $formulaire -> add_element( "gender", null, "radio", false, array("male", "female") );
+    $formulaire -> add_classes( "radio-gender", "gender" );
+
     $formulaire -> add_element( "subject", "Subject", "select", false, array("hardware", "software", "delivery", "other") );
     $formulaire -> add_element( "user-country", "Country", "select", true, country_list() );
+
     $formulaire -> add_element( "message", "Message", "textarea" );
-    
-    $debug = true;
-  
-    if($debug){
-        
-    }
+    $formulaire -> add_classes( "textarea-message", "large" );
 ?>
 
 <section class="formulaire">
     <?php
     if($formulaire->is_valid()){
         echo 'Message envoyé !';
-        echo $formulaire->get_message("html");
-        mail( $formulaire->get('email-email'), 'Hackers Poulette, technical support', $formulaire->get_message() );
+        echo $formulaire->get_message();
+        mail( $formulaire->get('email-email'), 'Hackers Poulette, technical support', $formulaire->get_message(true) );
     }
     else{?>
     <form method="post" action="">
@@ -35,27 +32,9 @@
             <h2>Contact</h2>
             <p>Fields with an * are mandatory.</p>
         </div>
-        <div class="item">
-            <?php $formulaire -> print_element( 'text-user-firstname' ); ?>
-        </div>
-        <div class="item">
-            <?php $formulaire -> print_element( 'text-user-lastname' ); ?>
-        </div>
-        <div class="item">
-            <?php $formulaire -> print_element( 'email-email' ); ?>
-        </div>
-        <div class="item gender">
-            <?php $formulaire -> print_element( 'radio-gender' ); ?>
-        </div>
-        <div class="item">
-        <?php $formulaire -> print_element( 'select-subject' ); ?>
-        </div>
-        <div class="item">
-            <?php $formulaire -> print_element( 'select-user-country' ); ?>
-        </div>
-        <div class="item large">
-            <?php $formulaire -> print_element( 'textarea-message' ); ?>
-        </div>
+
+       <?php $formulaire-> print_all_elements() ?>
+       
         <div class="item center">
             <button type="submit">Submit</button>
         </div>

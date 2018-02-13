@@ -36,6 +36,7 @@
         .item{
             width: 50%;
             margin: 16px 0;
+            padding: 4px;
 
             @supports (display: grid){   
                 width: auto;
@@ -60,10 +61,6 @@
                     width: auto;
                     grid-column: 2 / span 2;
                 }
-            }
-
-            > p{
-                padding: 4px;
             }
         }
         
