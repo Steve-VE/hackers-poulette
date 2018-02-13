@@ -1,10 +1,10 @@
 @import "modules/_mixings";
 
-@include font-face(Bellota, /assets/fonts/Bellota-Regular, null, null, otf);
-@include font-face(Bellota, /assets/fonts/Bellota-Bold, bold, null, otf);
-@include font-face(Bellota, /assets/fonts/Bellota-Italic, null, italic, otf);
-@include font-face(Bellota, /assets/fonts/Bellota-BoldItalic, bold, italic, otf);
+@include font-face(Bellota, "/assets/fonts/Bellota-Regular", null, null, otf);
+@include font-face(Bellota, "/assets/fonts/Bellota-Bold", bold, null, otf);
+@include font-face(Bellota, "/assets/fonts/Bellota-Italic", null, italic, otf);
+@include font-face(Bellota, "/assets/fonts/Bellota-BoldItalic", bold, italic, otf);
 
 @import "partials/_main";
 @import "partials/_header"; 
-@import "partials/_formulaire"; 
+@import "partials/_formulaire";

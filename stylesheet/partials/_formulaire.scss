@@ -22,6 +22,10 @@
     color: $color-main;
     
     & > form{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
         @supports (display: grid){   
             display: grid;
     
@@ -30,21 +34,30 @@
         }
 
         .item{
+            width: 50%;
+            margin: 16px 0;
+
             @supports (display: grid){   
+                width: auto;
                 grid-row: span 1;
                 grid-column: span 2;
+                margin: 0;
             }
 
             &.gender{
                 margin: auto 0;
             }
             &.large{
+                width: 100%;
                 @supports (display: grid){   
+                    width: auto;
                     grid-column: span 4;
                 }
             }
             &.center{
+
                 @supports (display: grid){   
+                    width: auto;
                     grid-column: 2 / span 2;
                 }
             }

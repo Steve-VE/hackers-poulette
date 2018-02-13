@@ -1,28 +1,38 @@
 @font-face {
   font-family: "Bellota";
-  src: url("/assets/fonts/Bellota-Regular.otf") format("opentype"); }
+  src: url("/assets/fonts/Bellota-Regular.otf") format("opentype");
+}
+
 @font-face {
   font-family: "Bellota";
   font-weight: bold;
-  src: url("/assets/fonts/Bellota-Bold.otf") format("opentype"); }
+  src: url("/assets/fonts/Bellota-Bold.otf") format("opentype");
+}
+
 @font-face {
   font-family: "Bellota";
   font-style: italic;
-  src: url("/assets/fonts/Bellota-Italic.otf") format("opentype"); }
+  src: url("/assets/fonts/Bellota-Italic.otf") format("opentype");
+}
+
 @font-face {
   font-family: "Bellota";
   font-style: italic;
   font-weight: bold;
-  src: url("/assets/fonts/Bellota-BoldItalic.otf") format("opentype"); }
+  src: url("/assets/fonts/Bellota-BoldItalic.otf") format("opentype");
+}
+
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+}
 
 body {
   width: 100%;
   height: 100vh;
-  background-color: white; }
+  background-color: white;
+}
 
 main {
   display: flex;
@@ -33,29 +43,39 @@ main {
   margin: 0 auto;
   padding: 0 20px;
   background-color: white;
-  font-family: Bellota, serif; }
+  font-family: Bellota, serif;
+}
 
 .text-center {
-  text-align: center; }
+  text-align: center;
+}
 
 h1 {
-  font-size: 2em; }
+  font-size: 2em;
+}
 
 header {
   display: flex;
   width: 100%;
   height: 25vh;
   padding: 24px 0;
-  border-bottom: 6px double #15c5bd; }
-  header img {
-    height: 200px; }
-  header .title {
-    width: 100%;
-    padding: 24px 0;
-    text-align: center; }
-    header .title h1 {
-      font-size: 2.5em;
-      margin-bottom: 24px; }
+  border-bottom: 6px double #15c5bd;
+}
+
+header img {
+  height: 200px;
+}
+
+header .title {
+  width: 100%;
+  padding: 24px 0;
+  text-align: center;
+}
+
+header .title h1 {
+  font-size: 2.5em;
+  margin-bottom: 24px;
+}
 
 .formulaire {
   width: 100%;
@@ -63,54 +83,103 @@ header {
   padding: 40px;
   background-color: #15c5bd;
   border-top: 4px double white;
-  color: white; }
+  color: white;
+}
+
+.formulaire > form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@supports (display: grid) {
   .formulaire > form {
     display: grid;
     grid-template: repeat(6, auto)/repeat(4, 1fr);
-    grid-gap: 32px 24px; }
-    .formulaire > form .item {
-      grid-row: span 1;
-      grid-column: span 2; }
-      .formulaire > form .item.gender {
-        margin: auto 0; }
-      .formulaire > form .item.large {
-        grid-column: span 4; }
-      .formulaire > form .item.center {
-        grid-column: 2 / span 2; }
-      .formulaire > form .item > p {
-        padding: 4px; }
-    .formulaire > form label {
-      display: block;
-      margin-bottom: 4px;
-      font-weight: bold; }
-    .formulaire > form input[type=text], .formulaire > form input[type=email], .formulaire > form select {
-      width: 100%;
-      padding: 0 12px;
-      border-radius: 4px;
-      border: none;
-      box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.2) inset;
-      font-family: Bellota, serif;
-      height: 32px; }
-    .formulaire > form textarea {
-      width: 100%;
-      padding: 0 12px;
-      border-radius: 4px;
-      border: none;
-      box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.2) inset;
-      font-family: Bellota, serif;
-      height: 100px;
-      resize: vertical; }
-    .formulaire > form button {
-      width: 100%;
-      padding: 20px;
-      border: none;
-      background-color: white;
-      color: #15c5bd;
-      font-weight: bold;
-      font-size: 1.2em; }
-    .formulaire > form .error {
-      border-radius: 8px;
-      background-color: red;
-      color: white; }
+    grid-gap: 32px 24px;
+  }
+}
 
+.formulaire > form .item {
+  width: 50%;
+  margin: 16px 0;
+}
+
+@supports (display: grid) {
+  .formulaire > form .item {
+    width: auto;
+    grid-row: span 1;
+    grid-column: span 2;
+    margin: 0;
+  }
+}
+
+.formulaire > form .item.gender {
+  margin: auto 0;
+}
+
+.formulaire > form .item.large {
+  width: 100%;
+}
+
+@supports (display: grid) {
+  .formulaire > form .item.large {
+    width: auto;
+    grid-column: span 4;
+  }
+}
+
+@supports (display: grid) {
+  .formulaire > form .item.center {
+    width: auto;
+    grid-column: 2 / span 2;
+  }
+}
+
+.formulaire > form .item > p {
+  padding: 4px;
+}
+
+.formulaire > form label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+.formulaire > form input[type=text], .formulaire > form input[type=email], .formulaire > form select {
+  width: 100%;
+  padding: 0 12px;
+  border-radius: 4px;
+  border: none;
+  box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.2) inset;
+  font-family: Bellota, serif;
+  height: 32px;
+}
+
+.formulaire > form textarea {
+  width: 100%;
+  padding: 0 12px;
+  border-radius: 4px;
+  border: none;
+  box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.2) inset;
+  font-family: Bellota, serif;
+  height: 100px;
+  resize: vertical;
+}
+
+.formulaire > form button {
+  width: 100%;
+  padding: 20px;
+  border: none;
+  background-color: white;
+  color: #15c5bd;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.formulaire > form .error {
+  border-radius: 8px;
+  background-color: red;
+  color: white;
+}
 /*# sourceMappingURL=main.css.map */
