@@ -2,59 +2,6 @@
 
 $mark = " *";
 
-// Insert a new input or select in a form
-function create_input( $name, $desription, $type="text", $mentadory=true, $options=null ){
-	global $form_variables;
-	
-    echo "<p>";
-
-    // If a description exist, we create a label
-    if(strlen($desription) > 0){ 
-        labelise( $desription, $name, $mentadory );
-    }
-
-    if($type == "text" || $type == "email"){ // Create an <input>
-        echo '<input type="'.$type.'" name="'. $type .'-'.$name.'" id="'.$name.'"';
-
-		// Check if a valid value exist already
-        if( isset($form_variables[ $type.'-'.$name]) ){
-            echo ' value="' . $form_variables[ $type.'-'.$name] . '"';
-        }
-        else{ // If no valid entry, mark this as error
-            echo '" class="error"';
-        }
-        echo ' />';
-    }
-    else if($type == "textarea"){ // Create an <area>
-        echo '<textarea name="' . $type . '-' . $name . '" id="' . $name . '">';
-        echo '</textarea>';
-    }
-    else if($type == "select" && $options !== null){ // Instead of an input, create a <select>
-        echo '<select name="select-' . $name . '" id="' . $name . '">';
-        foreach( $options as $keyOption => $valueOption ){
-            if( is_numeric( $keyOption) ){
-                echo '<option value="' . $valueOption . '">';
-                echo ucfirst( $valueOption );
-                echo '</option>';
-            }
-            else {
-                echo '<option value="' . $keyOption . '">';
-                echo ucfirst( $valueOption );
-                echo '</option>';
-            } 
-        }
-        echo '</select>';
-    }
-    else if($type == 'radio' && $options !== null){ // Instead of an input, create some <radio>
-        foreach( $options as $valueOption ){
-            echo '<input type="radio" name="input-' . $name . '" name="' . $name . '" value="' . $valueOption . '"/> ';
-			echo ucfirst( $valueOption ) . ' ';
-        }
-    }
-
-    echo "</p>";
-}
-
 // Create a <label>
 function labelise( $text, $for, $mentadory=true, $error=false ){
     global $mark;
@@ -323,10 +270,15 @@ function country_list(){
 }
 
 
-function try_to_get($name, $method="post"){
+function try_to_get($name, $filter="FILTER_SANITIZE_STRING", $input=INPUT_POST){
     if(isset($_POST[$name])){
-        if(strlen($_POST[$name]) > 0)
-        return $_POST[$name];
+        if(strlen($_POST[$name]) > 0){
+			// return $_POST[$name];
+			return filter_input($input, $name, $filter);
+		}
+		else{
+			return null;
+		}
     }
     else{
         return null;

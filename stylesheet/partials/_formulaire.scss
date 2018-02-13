@@ -22,23 +22,35 @@
     color: $color-main;
     
     & > form{
-        display: grid;
-
-        grid-template: repeat(6, auto) / repeat(4, 1fr);
-        grid-gap: 32px 24px;
+        @supports (display: grid){   
+            display: grid;
+    
+            grid-template: repeat(6, auto) / repeat(4, 1fr);
+            grid-gap: 32px 24px;
+        }
 
         .item{
-            grid-row: span 1;
-            grid-column: span 2;
+            @supports (display: grid){   
+                grid-row: span 1;
+                grid-column: span 2;
+            }
 
             &.gender{
                 margin: auto 0;
             }
             &.large{
-                grid-column: span 4;
+                @supports (display: grid){   
+                    grid-column: span 4;
+                }
             }
             &.center{
-                grid-column: 2 / span 2;
+                @supports (display: grid){   
+                    grid-column: 2 / span 2;
+                }
+            }
+
+            > p{
+                padding: 4px;
             }
         }
         
@@ -77,9 +89,10 @@
         }
         
         .error{
-            border: 1px solid $color-error;
-            // background-color: $color-error;
-            box-shadow: 1px 1px 2px 0px $color-error inset;
+            border-radius: 8px;
+
+            background-color: $color-error;
+            color: white;
         }
     }
 }

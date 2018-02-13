@@ -77,6 +77,8 @@ header {
         grid-column: span 4; }
       .formulaire > form .item.center {
         grid-column: 2 / span 2; }
+      .formulaire > form .item > p {
+        padding: 4px; }
     .formulaire > form label {
       display: block;
       margin-bottom: 4px;
@@ -107,7 +109,8 @@ header {
       font-weight: bold;
       font-size: 1.2em; }
     .formulaire > form .error {
-      border: 1px solid red;
-      box-shadow: 1px 1px 2px 0px red inset; }
+      border-radius: 8px;
+      background-color: red;
+      color: white; }
 
 /*# sourceMappingURL=main.css.map */
