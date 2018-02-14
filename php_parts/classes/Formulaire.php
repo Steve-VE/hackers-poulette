@@ -8,6 +8,7 @@ class Formulaire{
     private $_already_posted;
 
     private $_min_strlen;
+    public $_honeypotted = false;
 
     public function __construct(){
         if( $_SERVER['REQUEST_METHOD'] == 'POST' ){
@@ -20,6 +21,12 @@ class Formulaire{
 
         $this->_min_strlen["text"] = 2;
         $this->_min_strlen["textarea"] = 24;
+
+        if(isset($_POST['tel-user-phone'])){
+            if($_POST['tel-user-phone'] =! ""){
+                $_honeypotted = true;
+            }
+        }
     }
 
 
@@ -98,7 +105,8 @@ class Formulaire{
             
             // If a description exist, we create a label
             if(strlen($current_element['description']) > 0){ 
-                labelise( $current_element['description'], $current_element['name'], $current_element['mendatory'] );
+                // $this->labelise( $current_element['description'], $current_element['name'], $current_element['mendatory'] );
+                $this->labelise( $current_element );
             }
             
             if($current_element['type'] == "text" || $current_element['type'] == "email"){ // Create an <input>
@@ -108,17 +116,32 @@ class Formulaire{
                 if( $value!== "" ){
                     echo ' value="' . $value . '"';
                 }
+
+                // Check if required
+                if($current_element['mendatory']){
+                    echo ' required="required"';
+                }
                 echo '/>';
             }
             else if($current_element['type'] == "textarea"){ // Create an <area>
-                echo '<textarea name="' . $strict_name . '" id="' . $current_element['name'] . '">';
+                echo '<textarea name="' . $strict_name . '" id="' . $current_element['name'] . '"';
+                // Check if required
+                if($current_element['mendatory']){
+                    echo ' required="required"';
+                }
+                echo '>';
                 if( $value!== "" ){
                     echo $value;
                 }
                 echo '</textarea>';
             }
             else if($current_element['type'] == "select" && $current_element['options'] !== null){ // Instead of an input, create a <select>
-                echo '<select name="' . $strict_name . '" id="' . $current_element['name'] . '">';
+                echo '<select name="' . $strict_name . '" id="' . $current_element['name'] . '"';
+                // Check if required
+                if($current_element['mendatory']){
+                    echo ' required="required"';
+                }
+                echo '>';
                 foreach( $current_element['options'] as $keyOption => $valueOption ){
                     
                     if( is_numeric( $keyOption) ){
@@ -145,6 +168,10 @@ class Formulaire{
                     if( $value!== "" && $value === $valueOption
                     || $i == 0 ){
                         echo ' checked="checked"';
+                        // Check if required
+                        if($current_element['mendatory']){
+                            echo ' required="required"';
+                        }
                     }
                     echo '/> ';
                     echo ucfirst( $valueOption ) . ' ';
@@ -157,10 +184,48 @@ class Formulaire{
         }
     }
 
+    // Create a <label>
+    function labelise( $current_element ){
+        global $mark;
+        $strict_name = $current_element['type'] . '-' . $current_element['name'];
+        $error = $this->error($strict_name);
+
+        echo '<label for="' . $current_element['name'] . '"';
+        if($error){
+            echo ' class="error"';
+        }
+        echo '>';
+
+        echo $current_element['description'];
+        
+        if($current_element['mendatory']){ // Write the mendatory's mark
+            echo $mark;
+        }
+
+        if($error){ // Write a message error for the user know what to do
+            echo '<span class="error_message">';
+            echo $this->error_message( $strict_name );
+            echo '</span>';
+        }
+
+        echo '</label>';
+    }
+
     // Return true if an input isn't correcly fill
     private function error($strict_name){
+        // If the form wasn't be submit at least one time, we return no error
+        if( !$this->_already_posted ){
+            return false;
+        }
+
         // We get the element...
-        $current_element = $this->_elements[$strict_name];
+        $current_element = null;
+        if( isset($this->_elements[ $strict_name ]) ){
+            $current_element = $this->_elements[$strict_name];
+        }
+        else{
+            return true;
+        }
         $current_variable = null;
         // ...then we get its value
         if( isset($this->_variables[ $strict_name ]) ) {
@@ -178,11 +243,63 @@ class Formulaire{
             if(strlen($this->_variables[ $strict_name ]) < $this->_min_strlen[$current_element['type']]){
                 return true;
             }
+            if( $current_element['type'] == "text" && !ctype_alpha( str_replace(' ', '', $current_variable) ) ){ // ... and contains some none letter characters
+                return true;
+            }
+        }
+        else if( $current_element['type'] == "email" ){ // If the elemet's type is an email input...
+            // ... but its value is not a valid email adress
+            if( !filter_var($current_variable, FILTER_VALIDATE_EMAIL) ){
+                return true;
+            }
         }
 
+        // No error detected
         return false;
     }
 
+    // Return a message associate with the error type
+    private function error_message($strict_name){
+        // We get the element...
+        $current_element = null;
+        if( isset($this->_elements[ $strict_name ]) ){
+            $current_element = $this->_elements[$strict_name];
+        }
+        else{
+            return true;
+        }
+        $current_variable = null;
+        // ...then we get its value
+        if( isset($this->_variables[ $strict_name ]) ) {
+            $current_variable = $this->_variables[ $strict_name ];
+        }
+
+        // Error if it have no value
+        if( $current_variable == null || $current_variable == false ){
+            return "You must complete this field";
+        }
+
+        // If the element's type is a text or textarea...
+        if( ($current_element['type'] == "text" || $current_element['type'] == "textarea")){
+            // ... and don't have the minimum string lenght
+            if(strlen($this->_variables[ $strict_name ]) < $this->_min_strlen[$current_element['type']]){
+                return $current_element['description'] . ' is too short';
+            }
+            if( $current_element['type'] == "text" && !ctype_alpha( str_replace(' ', '', $current_variable) ) ){ // ... and contains some none letter characters
+                return $current_element['description'] . ' can contain only alphabetical characters';
+            }
+        }
+        else if( $current_element['type'] == "email" ){ // If the elemet's type is an email input...
+            // ... but its value is not a valid email adress
+            if( !filter_var($current_variable, FILTER_VALIDATE_EMAIL) ){
+                return 'This email adress isn\'t valid';
+            }
+        }
+
+        // No error detected
+        return 'Something wrong here';
+    }
+    
     // Return 'true' if the form is correctly fill
     public function is_valid(){
         return $this->_valid;
@@ -196,13 +313,10 @@ class Formulaire{
             $message .= '<html><body>';
         }
 
-        $message .= '<h1>Hackers Poulette - Technical Support</h1>';
+        $message .= '<h2>Hackers Poulette - Technical Support</h3>';
+        $message .= '<h3>Message :</h3>';
         $message .= '<p>';
-        $message .= 'From : ' . $this->_variables['text-user-firstname'] . ' ';
-        $message .= $this->_variables['text-user-lastname'] . '<br/>';
-        $message .= 'Mail : ' . $this->_variables['email-email'] . '<br/>';
-        $message .= 'About : ' . $this->_variables['select-subject'] . '<br/>';
-        $message .= 'Message :<br/>' . $this->_variables['textarea-message'];
+        $message .= nl2br($this->_variables['textarea-message']);
         $message .= '</p>';
 
         if($complete){
@@ -210,6 +324,20 @@ class Formulaire{
         }
 
         return $message;
+    }
+
+    public function get_mail_header(){
+        $email_adress = $this->_variables['email-email'];
+
+        // $mail_header = "From: " . strip_tags( $email_adress ) . "\r\n";
+        // $mail_header .= "Reply-To: ". strip_tags( $email_adress ) . "\r\n";
+        $mail_header = "From: hackers-poulette@becode.org\r\n";
+        $mail_header .= "Reply-To: hackers-poulette@becode.org\r\n";
+        // $mail_header .= "CC: susan@example.com\r\n";
+        $mail_header .= "MIME-Version: 1.0\r\n";
+        $mail_header .= "Content-Type: text/html; charset=UTF-8\r\n";
+
+        return $mail_header;
     }
 
     // Return a value at the index

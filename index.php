@@ -9,12 +9,13 @@ include("php_parts/functions.php");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>Hackers Poulette</title>
+    <title>HackersPoulette</title>
 
     <link rel="stylesheet" href="stylesheet/main.css">
 
 </head>
 <body>
+    <?php include("php_parts/honeypot.php");  ?>  
     <main>
         <?php
         include("php_parts/header.php");

@@ -9,7 +9,7 @@
     $formulaire -> add_classes( "radio-gender", "gender" );
 
     $formulaire -> add_element( "subject", "Subject", "select", false, array("hardware", "software", "delivery", "other") );
-    $formulaire -> add_element( "user-country", "Country", "select", true, country_list() );
+    $formulaire -> add_element( "user-country", "Country", "select", false, country_list() );
 
     $formulaire -> add_element( "message", "Message", "textarea" );
     $formulaire -> add_classes( "textarea-message", "large" );
@@ -17,10 +17,11 @@
 
 <section class="formulaire">
     <?php
-    if($formulaire->is_valid()){
+    if($formulaire->is_valid() && $formulaire->_honeypotted == false){
         echo 'Message envoyé !';
         echo $formulaire->get_message();
-        mail( $formulaire->get('email-email'), 'Hackers Poulette, technical support', $formulaire->get_message(true) );
+        
+        mail( $formulaire->get('email-email'), 'Hackers Poulette, technical support', $formulaire->get_message(true), $formulaire->get_mail_header() );
     }
     else{?>
     <form method="post" action="">
@@ -36,6 +37,7 @@
        <?php $formulaire-> print_all_elements() ?>
        
         <div class="item center">
+            <input type="tel" name="tel-user-phone" id="user-phone"/>
             <button type="submit">Submit</button>
         </div>
     </form>

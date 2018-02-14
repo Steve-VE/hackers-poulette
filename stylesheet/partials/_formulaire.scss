@@ -15,6 +15,7 @@
     width: 100%;
     height: 75vh;
     padding: 40px;
+    overflow: auto;
 
     background-color: $color-main-alt;
     border-top: 4px double $color-main;
@@ -30,7 +31,8 @@
             display: grid;
     
             grid-template: repeat(6, auto) / repeat(4, 1fr);
-            grid-gap: 32px 24px;
+            // grid-gap: 32px 24px;
+            grid-gap: 24px;
         }
 
         .item{
@@ -87,7 +89,8 @@
             width: 100%;
             padding: 20px;
             
-            border: none;
+            border: 1px solid $color-main-alt;
+            border-radius: 4px;
             
             background-color: $color-main;
             color: $color-main-alt;
@@ -103,6 +106,11 @@
 
             background-color: $color-error;
             color: white;
+
+            .error_message{
+                margin-left: 12px;
+                font-size: 0.8em;
+            }
         }
     }
 }

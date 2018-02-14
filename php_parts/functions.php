@@ -2,22 +2,6 @@
 
 $mark = " *";
 
-// Create a <label>
-function labelise( $text, $for, $mentadory=true, $error=false ){
-    global $mark;
-
-	echo '<label for="' . $for . '"';
-	if($error){
-		echo ' class="error"';
-	}
-	echo '>';
-    echo $text;
-    if($mentadory){
-        echo $mark;
-    }
-    echo '</label>';
-}
-
 // Return a list with all countries and they iso code
 function country_list(){
     $countries = array(

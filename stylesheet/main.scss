@@ -1,4 +1,5 @@
 @import "modules/_mixings";
+@import "modules/_honeypot";
 
 @include font-face(Bellota, "/assets/fonts/Bellota-Regular", null, null, otf);
 @include font-face(Bellota, "/assets/fonts/Bellota-Bold", bold, null, otf);
