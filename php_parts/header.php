@@ -1,5 +1,5 @@
 <header>
-    <a href="http://projet-1-formulaire/">
+    <a href="/">
         <img src="assets/img/logo.png" alt="logo">
     </a>
 
