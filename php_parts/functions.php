@@ -1,7 +1,4 @@
 <?php
-
-$mark = " *";
-
 /**
  * Return a list with all countries and they iso code
  * 
@@ -300,4 +297,3 @@ function validate($var): bool{
     }
     else return false;
 }
-?>

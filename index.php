@@ -1,5 +1,6 @@
 <?php
-include("php_parts/functions.php");
+include_once 'php_parts/defines.php';
+include_once 'php_parts/functions.php';
 ?>
 
 <!DOCTYPE html>
@@ -10,16 +11,17 @@ include("php_parts/functions.php");
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <title>HackersPoulette</title>
+    
 
     <link rel="stylesheet" href="stylesheet/main.css">
 
 </head>
 <body>
-    <?php include("php_parts/honeypot.php");  ?>  
+    <?php include 'php_parts/honeypot.php';?>  
     <main>
         <?php
-        include("php_parts/header.php");
-        include("php_parts/formulaire.php");
+        include 'php_parts/header.php';
+        include 'php_parts/formulaire.php';
         ?>
     </main>
 </body>

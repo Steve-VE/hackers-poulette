@@ -207,7 +207,6 @@ class Formulaire{
      * @param array $current_element
      */
     function labelise(array $current_element ){
-        global $mark;
         $strict_name = $current_element['type'] . '-' . $current_element['name'];
         $error = $this->error($strict_name);
 
@@ -220,7 +219,7 @@ class Formulaire{
         echo $current_element['description'];
         
         if($current_element['mendatory']){ // Write the mendatory's mark
-            echo $mark;
+            echo ATTENTION_SYMBOL;
         }
 
         if($error){ // Write a message error for the user know what to do
