@@ -164,7 +164,7 @@ class Formulaire{
                 $i = 0;
 
                 foreach( $current_element['options'] as $valueOption ){
-                    echo '<input type=\'radio\' name=\'' . $current_element['name'] . '\' value=\'' . $valueOption . '\'';
+                    echo '<input type=\'radio\' name=\'' . $strict_name . '\' value=\'' . $valueOption . '\'';
                     if( $value!== '' && $value === $valueOption
                     || $i == 0 ){
                         echo ' checked=\'checked\'';
