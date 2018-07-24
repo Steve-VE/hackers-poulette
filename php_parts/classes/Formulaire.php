@@ -24,7 +24,7 @@ class Formulaire{
 
         if(isset($_POST['tel-user-phone'])){
             if($_POST['tel-user-phone'] =! ''){
-                $_honeypotted = true;
+                $this->_honeypotted = true;
             }
         }
     }
@@ -181,6 +181,7 @@ class Formulaire{
                 $i = 0;
 
                 foreach( $current_element['options'] as $valueOption ){
+                    echo '<label>';
                     echo '<input type=\'radio\' name=\'' . $strict_name . '\' value=\'' . $valueOption . '\'';
                     if( $value!== '' && $value === $valueOption
                     || $i == 0 ){
@@ -191,11 +192,11 @@ class Formulaire{
                         }
                     }
                     echo '/> ';
-                    echo ucfirst( $valueOption ) . ' ';
+                    echo ucfirst( $valueOption );
+                    echo ' </label>';
                     $i++;
                 }
             }
-            
             echo '</p>';
             echo '</div>';
         }
