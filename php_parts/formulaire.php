@@ -1,27 +1,27 @@
 <?php
     include('classes/Formulaire.php');
     $formulaire = new Formulaire;
-    $formulaire -> add_element( 'user-firstname', 'Your name' );
-    $formulaire -> add_element( 'user-lastname', 'Last name' );
-    $formulaire -> add_element( 'email', 'Email', 'email' );
+    $formulaire->addElement( 'user-firstname', 'Your name' );
+    $formulaire->addElement( 'user-lastname', 'Last name' );
+    $formulaire->addElement( 'email', 'Email', 'email' );
 
-    $formulaire -> add_element( 'gender', null, 'radio', false, array('male', 'female') );
-    $formulaire -> add_classes( 'radio-gender', 'gender' );
+    $formulaire->addElement( 'gender', null, 'radio', false, array('male', 'female') );
+    $formulaire->addClasses( 'radio-gender', 'gender' );
 
-    $formulaire -> add_element( 'subject', 'Subject', 'select', false, array('hardware', 'software', 'delivery', 'other') );
-    $formulaire -> add_element( 'user-country', 'Country', 'select', false, country_list() );
+    $formulaire->addElement( 'subject', 'Subject', 'select', false, array('hardware', 'software', 'delivery', 'other') );
+    $formulaire->addElement( 'user-country', 'Country', 'select', false, country_list() );
 
-    $formulaire -> add_element( 'message', 'Message', 'textarea' );
-    $formulaire -> add_classes( 'textarea-message', 'large' );
+    $formulaire->addElement( 'message', 'Message', 'textarea' );
+    $formulaire->addClasses( 'textarea-message', 'large' );
 ?>
 
 <section class='formulaire'>
     <?php
-    if($formulaire->is_valid() && $formulaire->_honeypotted == false){
+    if($formulaire->isValid() && $formulaire->_honeypotted == false){
         echo "Message envoyé !";
-        echo $formulaire->get_message();
+        echo $formulaire->getMessage();
         
-        mail( $formulaire->get('email-email'), 'Hackers Poulette, technical support', $formulaire->get_message(true), $formulaire->get_mail_header() );
+        mail( $formulaire->get('email-email'), 'Hackers Poulette, technical support', $formulaire->getMessage(true), $formulaire->getMailHeader() );
     }
     else{?>
     <form method='post'>
@@ -34,7 +34,7 @@
             <p>Fields with an * are mandatory.</p>
         </div>
 
-       <?php $formulaire-> print_all_elements() ?>
+       <?php $formulaire->printAllElements() ?>
        
         <div class='item center'>
             <input type='tel' name='tel-user-phone' id='user-phone'/>

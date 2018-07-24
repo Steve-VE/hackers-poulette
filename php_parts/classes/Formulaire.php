@@ -1,14 +1,14 @@
 <?php
 
 class Formulaire{
-    private $_elements = [];
-    private $_variables = [];
-    private $_schema = [];
-    private $_valid;
-    private $_already_posted;
+    private $elements = [];
+    private $variables = [];
+    private $schema = [];
+    private $valid;
+    private $already_posted;
 
-    private $_min_strlen;
-    public $_honeypotted = false;
+    private $min_strlen;
+    public $honeypotted = false;
 
     public function __construct(){
         if( $_SERVER['REQUEST_METHOD'] == 'POST' ){
@@ -38,7 +38,7 @@ class Formulaire{
      * @param mixed $mentadory=true
      * @param mixed $options=null
      */
-    public function add_element($name, $desription, $type='text', $mentadory=true, $options=null){
+    public function addElement($name, $desription, $type='text', $mentadory=true, $options=null){
         // SETTING OF THE ELEMENT
         $strict_name = $type.'-'.$name;
         // Add the element with all its values
@@ -84,7 +84,7 @@ class Formulaire{
      * @param mixed $strict_name
      * @param mixed $classes
      */
-    public function add_classes($strict_name, $classes){
+    public function addClasses($strict_name, $classes){
         $this->_elements[$strict_name]['classes'] = $this->_elements[$strict_name]['classes'] . ' ' . $classes;
     }
     
@@ -92,9 +92,9 @@ class Formulaire{
      * Display all elements in the formulaire
      *
      */
-    public function print_all_elements(){
+    public function printAllElements(){
         foreach( $this->_elements as $strict_name => $element ){
-            $this->print_element($strict_name);
+            $this->printElement($strict_name);
         }
     }
 
@@ -103,7 +103,7 @@ class Formulaire{
      *
      * @param string $strict_name
      */
-    public function print_element(string $strict_name){
+    public function printElement(string $strict_name){
         $current_element = $this->_elements[ $strict_name ];
         $value = '';
 
@@ -225,7 +225,7 @@ class Formulaire{
 
         if($error){ // Write a message error for the user know what to do
             echo '<span class=\'error_message\'>';
-            echo $this->error_message( $strict_name );
+            echo $this->errorMessage( $strict_name );
             echo '</span>';
         }
 
@@ -290,7 +290,7 @@ class Formulaire{
      * @param string $strict_name
      * @return string
      */
-    private function error_message(string $strict_name): string{
+    private function errorMessage(string $strict_name): string{
         // We get the element...
         $current_element = null;
         if( isset($this->_elements[ $strict_name ]) ){
@@ -336,7 +336,7 @@ class Formulaire{
      *
      * @return bool
      */
-    public function is_valid(): bool{
+    public function isValid(): bool{
         return $this->_valid;
     }
 
@@ -345,7 +345,7 @@ class Formulaire{
      *
      * @param bool $complete=false
      */
-    public function get_message(bool $complete=false): string{
+    public function getMessage(bool $complete=false): string{
         $message = '';
 
         if($complete){
@@ -370,7 +370,7 @@ class Formulaire{
      *
      * @return string
      */
-    public function get_mail_header(): string{
+    public function getMailHeader(): string{
         $email_adress = $this->_variables['email-email'];
         $mail_header = 'From: hackers-poulette@becode.org\r\n';
         $mail_header .= 'Reply-To: hackers-poulette@becode.org\r\n';
