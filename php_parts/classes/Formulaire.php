@@ -29,8 +29,15 @@ class Formulaire{
         }
     }
 
-
-    // Add an element in this formulaire
+    /**
+     * Add an element in this form
+     *
+     * @param mixed $name
+     * @param mixed $desription
+     * @param mixed $type='text'
+     * @param mixed $mentadory=true
+     * @param mixed $options=null
+     */
     public function add_element($name, $desription, $type='text', $mentadory=true, $options=null){
         // SETTING OF THE ELEMENT
         $strict_name = $type.'-'.$name;
@@ -43,7 +50,6 @@ class Formulaire{
             'options' => $options,
             'classes' => 'item'
         ];
-        
 
         // GETTING OF ITS VALUE (if possible)
         // We look what type of filter we need to sanitize;
@@ -72,21 +78,32 @@ class Formulaire{
         // }
     }
 
-    // Add some CSS class in an element
+    /**
+     * Add some CSS class in an element
+     *
+     * @param mixed $strict_name
+     * @param mixed $classes
+     */
     public function add_classes($strict_name, $classes){
         $this->_elements[$strict_name]['classes'] = $this->_elements[$strict_name]['classes'] . ' ' . $classes;
     }
     
-
-    // Draw all elements in the formulaire
+    /**
+     * Display all elements in the formulaire
+     *
+     */
     public function print_all_elements(){
         foreach( $this->_elements as $strict_name => $element ){
             $this->print_element($strict_name);
         }
     }
 
-    // Draw the element in HTML
-    public function print_element($strict_name){
+    /**
+     * Draw the element in HTML
+     *
+     * @param string $strict_name
+     */
+    public function print_element(string $strict_name){
         $current_element = $this->_elements[ $strict_name ];
         $value = '';
 
@@ -184,8 +201,12 @@ class Formulaire{
         }
     }
 
-    // Create a <label>
-    function labelise( $current_element ){
+    /**
+     * Create a <label>
+     *
+     * @param array $current_element
+     */
+    function labelise(array $current_element ){
         global $mark;
         $strict_name = $current_element['type'] . '-' . $current_element['name'];
         $error = $this->error($strict_name);
@@ -211,8 +232,13 @@ class Formulaire{
         echo '</label>';
     }
 
-    // Return true if an input isn't correcly fill
-    private function error($strict_name){
+    /**
+     * Return true if an input isn't correcly fill
+     *
+     * @param string $strict_name
+     * @return bool
+     */
+    private function error(string $strict_name): bool{
         // If the form wasn't be submit at least one time, we return no error
         if( !$this->_already_posted ){
             return false;
@@ -258,15 +284,20 @@ class Formulaire{
         return false;
     }
 
-    // Return a message associate with the error type
-    private function error_message($strict_name){
+    /**
+     * Return a message associate with the error type
+     *
+     * @param string $strict_name
+     * @return string
+     */
+    private function error_message(string $strict_name): string{
         // We get the element...
         $current_element = null;
         if( isset($this->_elements[ $strict_name ]) ){
             $current_element = $this->_elements[$strict_name];
         }
         else{
-            return true;
+            // return true;
         }
         $current_variable = null;
         // ...then we get its value
@@ -300,13 +331,21 @@ class Formulaire{
         return 'Something wrong here';
     }
     
-    // Return 'true' if the form is correctly fill
-    public function is_valid(){
+    /**
+     * Return 'true' if the form is correctly fill
+     *
+     * @return bool
+     */
+    public function is_valid(): bool{
         return $this->_valid;
     }
 
-    // Write and return a message from form's data
-    public function get_message($complete=false){
+    /**
+     * Write and return a message from form's data
+     *
+     * @param bool $complete=false
+     */
+    public function get_message(bool $complete=false): string{
         $message = '';
 
         if($complete){
@@ -326,24 +365,28 @@ class Formulaire{
         return $message;
     }
 
-    public function get_mail_header(){
+    /**
+     * Return the mail header.
+     *
+     * @return string
+     */
+    public function get_mail_header(): string{
         $email_adress = $this->_variables['email-email'];
-
-        // $mail_header = 'From: ' . strip_tags( $email_adress ) . '\r\n';
-        // $mail_header .= 'Reply-To: '. strip_tags( $email_adress ) . '\r\n';
         $mail_header = 'From: hackers-poulette@becode.org\r\n';
         $mail_header .= 'Reply-To: hackers-poulette@becode.org\r\n';
-        // $mail_header .= 'CC: susan@example.com\r\n';
         $mail_header .= 'MIME-Version: 1.0\r\n';
         $mail_header .= 'Content-Type: text/html; charset=UTF-8\r\n';
 
         return $mail_header;
     }
 
-    // Return a value at the index
-    public function get($index_value){
+    /**
+     * Get a value from the form.
+     *
+     * @param string $index_value
+     * @return string
+     */
+    public function get(string $index_value){
         return $this->_variables[$index_value];
     }
 }
-
-?>
